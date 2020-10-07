@@ -33,5 +33,10 @@ export default {
   &__right {
     flex: 1;
   }
+
+  &__right {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 </style>
