@@ -6,10 +6,23 @@
           <span class="storie__button__icon">+</span>
         </v-file-button>
       </v-storie>
-      <v-storie
-        v-if="followings.length"
-        :for="({ name, stories }, index) in followings"
-      />
+      <div class="navigation__stories" v-if="stories.length">
+        <v-storie
+          v-for="({ name }, index) in notSeen"
+          :username="name"
+          :key="name + index"
+          :showBorder="true"
+        />
+        <v-storie
+          v-for="({ name }, index) in seen"
+          :username="name"
+          :key="name + index"
+          :showBorder="true"
+          primaryBorderColor="#ddd"
+          secondaryBorderColor="#ddd"
+        />
+      </div>
+      <div v-else>Loading....</div>
     </nav>
   </section>
 </template>
@@ -25,11 +38,23 @@ export default {
     "v-file-button": VFileButton,
   },
   props: {
-    followings: {
+    stories: {
       type: Array,
       default() {
         return [];
       },
+    },
+  },
+  computed: {
+    seen: function () {
+      return this.stories.filter((storie, index) => {
+        if (index % 2 === 0) return storie;
+      });
+    },
+    notSeen: function () {
+      return this.stories.filter((storie, index) => {
+        if (index % 2 != 0) return storie;
+      });
     },
   },
 };
@@ -47,6 +72,11 @@ export default {
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  &__stories {
+    display: flex;
+    align-items: center;
   }
 }
 .storie__button {

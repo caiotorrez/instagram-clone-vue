@@ -2,8 +2,8 @@
   <div class="storie" @click="$emit('click')">
     <v-avatar
       :size="56"
-      :primaryBorderColor="showBorder ? '#cd2d89' : ''"
-      :secondaryBorderColor="showBorder ? '#f99143' : ''"
+      :primaryBorderColor="showBorder ? primaryBorderColor : ''"
+      :secondaryBorderColor="showBorder ? secondaryBorderColor : ''"
       style="margin: 10px"
     >
       <slot />
@@ -32,6 +32,14 @@ export default {
     showBorder: {
       type: Boolean,
       default: false,
+    },
+    primaryBorderColor: {
+      type: String,
+      default: "#cd2d89",
+    },
+    secondaryBorderColor: {
+      type: String,
+      default: "#f99143",
     },
   },
 };

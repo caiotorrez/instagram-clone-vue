@@ -18,11 +18,11 @@
         <v-direct :size="24" class="navbar__right__button" />
       </template>
     </the-navbar>
-    <stories-navbar />
+    <stories-navbar :stories="stories" />
 
     <!-- timeline -->
     <section>
-      <timeline-card />
+      <timeline-card v-for="(post, index) in posts" :key="index" />
     </section>
   </header>
 </template>
@@ -34,6 +34,7 @@ import TimelineCard from "@/components/TimelineCard.vue";
 import VLogo from "@/components/VLogo.vue";
 import VFileButton from "@/components/VFileButton.vue";
 import VDirect from "@/components/VDirect.vue";
+import { getStories, getPosts } from "../api/client.js";
 
 export default {
   name: "home-page",
@@ -44,6 +45,21 @@ export default {
     "v-upload-image": VFileButton,
     TimelineCard,
     VDirect,
+  },
+  data() {
+    return {
+      stories: [],
+      posts: [],
+    };
+  },
+
+  created: function () {
+    getStories().then((stories) => {
+      this.stories = stories;
+    });
+    getPosts().then((posts) => {
+      this.posts = posts;
+    });
   },
 };
 </script>
