@@ -18,11 +18,16 @@
         <v-direct :size="24" class="navbar__right__button" />
       </template>
     </the-navbar>
-    <stories-navbar :stories="stories" />
+    <stories-navbar :stories="getStories" />
+    <!-- <vue-glide :perView="1" :autoplay="5000" :rewind="false" @glide:run-end="teste">
+      <vue-glide-slide v-for="i in 2" :key="i">
+        Slide {{ i }}
+      </vue-glide-slide>
+    </vue-glide> -->
 
     <!-- timeline -->
     <section>
-      <timeline-card v-for="(post, index) in posts" :key="index" />
+      <timeline-card v-for="(post, index) in getPosts" :key="index" />
     </section>
   </header>
 </template>
@@ -34,7 +39,7 @@ import TimelineCard from "@/components/TimelineCard.vue";
 import VLogo from "@/components/VLogo.vue";
 import VFileButton from "@/components/VFileButton.vue";
 import VDirect from "@/components/VDirect.vue";
-import { getStories, getPosts } from "../api/client.js";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "home-page",
@@ -46,20 +51,16 @@ export default {
     TimelineCard,
     VDirect,
   },
-  data() {
-    return {
-      stories: [],
-      posts: [],
-    };
+  computed: {
+    ...mapGetters(["getPosts", "getStories"]),
+  },
+  methods: {
+    ...mapActions(["setPosts", "setStories"]),
   },
 
   created: function () {
-    getStories().then((stories) => {
-      this.stories = stories;
-    });
-    getPosts().then((posts) => {
-      this.posts = posts;
-    });
+    this.setStories();
+    this.setPosts();
   },
 };
 </script>
