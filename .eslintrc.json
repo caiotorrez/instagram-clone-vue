@@ -2,5 +2,11 @@
   "rules": {
     "global-require": 0
   },
-  "extends": ["plugin:vue/base"]
+  "extends": ["plugin:vue/base"],
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  }
 }
