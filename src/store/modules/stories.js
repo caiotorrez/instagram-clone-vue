@@ -1,41 +1,34 @@
-import {
-  findAllStories
-} from '@/api/stories';
-
-export const mutationTypes = {
-  SET_STORIES: 'SET_STORIES'
-}
+import { findAllStories } from "@/api/stories";
+import { SET_STORIES } from "../mutation-types";
 
 // initial state
 const state = () => ({
-  all: {},
+  all: {}
 });
 
 // getters
 const getters = {
-  getStories: state => Object.values(state.all),
+  getStories: state => Object.values(state.all)
 };
 
 // actions
 const actions = {
-  async setStories({
-    commit
-  }) {
+  async setStories({ commit }) {
     const stories = await findAllStories();
-    commit(mutationTypes.SET_STORIES, stories);
+    commit(SET_STORIES, stories);
   }
 };
 
 // mutations
 const mutations = {
-  [mutationTypes.SET_STORIES](state, stories) {
+  [SET_STORIES](state, stories) {
     const all = stories.reduce((object, value) => {
       object[value.id] = value;
       return object;
     }, {});
-    state.all = all;
+    state.all = { ...all };
   }
-}
+};
 
 export default {
   state,

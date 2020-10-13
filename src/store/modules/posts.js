@@ -1,41 +1,34 @@
-import {
-  findAllPosts
-} from '@/api/posts';
-
-export const mutationTypes = {
-  SET_POSTS: 'SET_POSTS'
-}
+import { findAllPosts } from "@/api/posts";
+import { SET_POSTS } from "../mutation-types";
 
 // initial state
 const state = () => ({
   all: {},
-  currentPost: '',
+  currentPost: ""
 });
 
 // getters
 const getters = {
   getPosts: state => Object.values(state.all),
-  getPostsById: state => (id) => state.all[id],
+  getPostsById: state => id => state.all[id]
 };
 
 // actions
 const actions = {
-  async setPosts({
-    commit
-  }) {
+  async setPosts({ commit }) {
     const posts = await findAllPosts();
-    commit(mutationTypes.SET_POSTS, posts);
+    commit(SET_POSTS, posts);
   }
 };
 
 // mutations
 const mutations = {
-  [mutationTypes.SET_POSTS](state, posts) {
+  [SET_POSTS](state, posts) {
     const all = posts.reduce((object, value) => {
       object[value.id] = value;
       return object;
     }, {});
-    state.all = all;
+    state.all = { ...all };
   }
 };
 
